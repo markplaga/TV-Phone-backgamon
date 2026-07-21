@@ -4,11 +4,91 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Backgammon TV</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <main id="app"></main>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/app.js"></script>
+  <script>
+    if (typeof window.io !== "function") {
+      window.io = function staticPreviewSocket() {
+        const listeners = {};
+        const points = Array(24).fill(0);
+        points[0] = 2;
+        points[11] = 5;
+        points[16] = 3;
+        points[18] = 5;
+        points[23] = -2;
+        points[12] = -5;
+        points[7] = -3;
+        points[5] = -5;
+
+        const state = {
+          roomCode: "DEMO",
+          theme: "classic-walnut",
+          status: "lobby",
+          players: { white: null, black: null },
+          points,
+          bar: { white: 0, black: 0 },
+          borneOff: { white: 0, black: 0 },
+          turn: "white",
+          dice: [],
+          remainingDice: [],
+          rolled: false,
+          turnHistory: [],
+          score: { white: 0, black: 0 },
+          matchLength: 5,
+          message: "Preview mode — deploy the Node server for live phone connections.",
+          winner: null
+        };
+
+        const qrSvg = encodeURIComponent(
+          '<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360" viewBox="0 0 360 360">' +
+          '<rect width="360" height="360" fill="white"/><rect x="35" y="35" width="290" height="290" rx="24" fill="#17120f"/>' +
+          '<text x="180" y="165" text-anchor="middle" font-family="Arial" font-size="42" font-weight="700" fill="white">DEMO</text>' +
+          '<text x="180" y="210" text-anchor="middle" font-family="Arial" font-size="20" fill="white">Server required</text></svg>'
+        );
+
+        return {
+          connected: false,
+          on(event, handler) {
+            listeners[event] = handler;
+          },
+          emit(event, payload, callback) {
+            if (event === "create-room") {
+              callback?.({
+                roomCode: "DEMO",
+                joinUrl: location.href,
+                qr: `data:image/svg+xml;charset=utf-8,${qrSvg}`,
+                state
+              });
+              return;
+            }
+            if (event === "set-theme") {
+              state.theme = payload?.theme || state.theme;
+              listeners.state?.(state);
+              return;
+            }
+            if (event === "set-match-length") {
+              state.matchLength = Number(payload?.matchLength) || state.matchLength;
+              listeners.state?.(state);
+              return;
+            }
+            if (event === "new-game") {
+              state.message = "Preview mode — deploy the Node server for live phone connections.";
+              listeners.state?.(state);
+              return;
+            }
+            if (event === "join-room") {
+              callback?.({ ok: false, error: "Live phone play requires the deployed Node server." });
+              return;
+            }
+            callback?.({ ok: false, error: "This action is unavailable in preview mode." });
+          }
+        };
+      };
+    }
+  </script>
+  <script src="./app.js"></script>
 </body>
 </html>
