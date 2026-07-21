@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tv-phone-backgammon-live
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    autoDeployTrigger: commit
