@@ -1,160 +1,7 @@
-/* Enhanced checker selection, legal-move highlighting, and center-bar display. */
-
-function bgOwnerOf(value) {
-  if (value > 0) return "white";
-  if (value < 0) return "black";
-  return null;
-}
-
-function bgCountAt(gameState, point, color) {
-  const value = gameState.points[point];
-  return bgOwnerOf(value) === color ? Math.abs(value) : 0;
-}
-
-function bgDirection(color) {
-  return color === "white" ? 1 : -1;
-}
-
-function bgHomeRange(color) {
-  return color === "white" ? [18, 23] : [0, 5];
-}
-
-function bgAllInHome(gameState, color) {
-  if (gameState.bar[color] > 0) return false;
-  const [start, end] = bgHomeRange(color);
-  for (let point = 0; point < 24; point++) {
-    if (bgCountAt(gameState, point, color) && (point < start || point > end)) return false;
+const bgImageThemes = {
+  "real-wood": {
+    image: "./themes/real-wood/board.svg"
   }
-  return true;
-}
-
-function bgCanLand(gameState, point, color) {
-  if (point < 0 || point > 23) return false;
-  const value = gameState.points[point];
-  const owner = bgOwnerOf(value);
-  return owner === null || owner === color || Math.abs(value) === 1;
-}
-
-function bgEntryPoint(color, die) {
-  return color === "white" ? die - 1 : 24 - die;
-}
-
-function bgBearOffDistance(color, from) {
-  return color === "white" ? 24 - from : from + 1;
-}
-
-function bgFartherCheckerExists(gameState, color, from) {
-  if (color === "white") {
-    for (let point = 18; point < from; point++) {
-      if (bgCountAt(gameState, point, color)) return true;
-    }
-  } else {
-    for (let point = 5; point > from; point--) {
-      if (bgCountAt(gameState, point, color)) return true;
-    }
-  }
-  return false;
-}
-
-function bgLegalSingleMoves(gameState, color, die) {
-  const moves = [];
-  if (gameState.bar[color] > 0) {
-    const to = bgEntryPoint(color, die);
-    if (bgCanLand(gameState, to, color)) moves.push({ from: "bar", to, die });
-    return moves;
-  }
-
-  for (let from = 0; from < 24; from++) {
-    if (!bgCountAt(gameState, from, color)) continue;
-    const to = from + bgDirection(color) * die;
-
-    if (to >= 0 && to <= 23 && bgCanLand(gameState, to, color)) {
-      moves.push({ from, to, die });
-      continue;
-    }
-
-    if (bgAllInHome(gameState, color)) {
-      const distance = bgBearOffDistance(color, from);
-      if (die === distance || (die > distance && !bgFartherCheckerExists(gameState, color, from))) {
-        moves.push({ from, to: "off", die });
-      }
-    }
-  }
-  return moves;
-}
-
-function bgApplyMoveToCopy(gameState, color, move) {
-  const next = JSON.parse(JSON.stringify(gameState));
-  if (move.from === "bar") next.bar[color]--;
-  else next.points[move.from] += color === "white" ? -1 : 1;
-
-  if (move.to === "off") {
-    next.borneOff[color]++;
-  } else {
-    const opponent = color === "white" ? "black" : "white";
-    if (bgOwnerOf(next.points[move.to]) === opponent && Math.abs(next.points[move.to]) === 1) {
-      next.points[move.to] = 0;
-      next.bar[opponent]++;
-    }
-    next.points[move.to] += color === "white" ? 1 : -1;
-  }
-  return next;
-}
-
-function bgMoveSequences(gameState, color, dice) {
-  const results = [];
-
-  function walk(position, remaining, sequence) {
-    if (!remaining.length) {
-      results.push(sequence);
-      return;
-    }
-
-    let moved = false;
-    const triedDice = new Set();
-    for (let index = 0; index < remaining.length; index++) {
-      const die = remaining[index];
-      if (triedDice.has(die)) continue;
-      triedDice.add(die);
-
-      const moves = bgLegalSingleMoves(position, color, die);
-      for (const move of moves) {
-        moved = true;
-        const nextRemaining = remaining.slice();
-        nextRemaining.splice(index, 1);
-        walk(bgApplyMoveToCopy(position, color, move), nextRemaining, sequence.concat(move));
-      }
-    }
-
-    if (!moved) results.push(sequence);
-  }
-
-  walk(gameState, dice, []);
-  return results;
-}
-
-currentLegalMoves = function enhancedCurrentLegalMoves() {
-  if (!state || !state.rolled || state.turn !== role || !["white", "black"].includes(role)) return [];
-  const sequences = bgMoveSequences(state, role, state.remainingDice);
-  const maximumLength = Math.max(0, ...sequences.map(sequence => sequence.length));
-  let best = sequences.filter(sequence => sequence.length === maximumLength);
-
-  if (state.remainingDice.length === 2 &&
-      state.remainingDice[0] !== state.remainingDice[1] &&
-      maximumLength === 1) {
-    const higherDie = Math.max(...state.remainingDice);
-    if (best.some(sequence => sequence[0]?.die === higherDie)) {
-      best = best.filter(sequence => sequence[0]?.die === higherDie);
-    }
-  }
-
-  const unique = new Map();
-  for (const sequence of best) {
-    const move = sequence[0];
-    if (!move) continue;
-    unique.set(`${move.from}-${move.to}-${move.die}`, move);
-  }
-  return [...unique.values()];
 };
 
 function bgSameLocation(a, b) {
@@ -204,8 +51,11 @@ boardHtml = function enhancedBoardHtml(providedMoves = null) {
   const whiteOffTarget = role === "white" && offMoves.length;
   const blackOffTarget = role === "black" && offMoves.length;
   const offDice = [...new Set(offMoves.map(move => move.die))].join("/");
+  const imageTheme = bgImageThemes[state.theme];
+  const imageClass = imageTheme ? "image-board" : "";
+  const imageStyle = imageTheme ? `style="--board-skin:url('${imageTheme.image}')"` : "";
 
-  return `<div class="board">
+  return `<div class="board ${imageClass}" ${imageStyle}>
     ${halfHtml(order.topLeft,order.bottomLeft,moves)}
     <div class="bar ${barIsSource ? "legal-source":""} ${barIsSelected ? "selected-source":""}" data-bar>
       <div class="bar-stack bar-black">${checkerHtml("black",state.bar.black)}</div>
