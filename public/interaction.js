@@ -1,6 +1,7 @@
 const bgImageThemes = {
   "real-wood": {
-    image: "./themes/real-wood/board.svg"
+    image: "./themes/real-wood/board.jpg",
+    fallback: "./themes/real-wood/board.svg"
   }
 };
 
@@ -53,7 +54,10 @@ boardHtml = function enhancedBoardHtml(providedMoves = null) {
   const offDice = [...new Set(offMoves.map(move => move.die))].join("/");
   const imageTheme = bgImageThemes[state.theme];
   const imageClass = imageTheme ? "image-board" : "";
-  const imageStyle = imageTheme ? `style="--board-skin:url('${imageTheme.image}')"` : "";
+  const imageSources = imageTheme
+    ? [imageTheme.image, imageTheme.fallback].filter(Boolean).map(path => `url('${path}')`).join(",")
+    : "";
+  const imageStyle = imageTheme ? `style="--board-skin:${imageSources}"` : "";
 
   return `<div class="board ${imageClass}" ${imageStyle}>
     ${halfHtml(order.topLeft,order.bottomLeft,moves)}
