@@ -10,6 +10,7 @@ let selectedFrom = null;
 
 const themes = [
   ["classic-walnut","Classic Walnut"],
+  ["real-wood","Real Wood"],
   ["egyptian","Ancient Egypt"],
   ["zen","Japanese Zen"],
   ["medieval","Medieval Castle"],
@@ -23,6 +24,7 @@ const themes = [
 
 const palettes = {
   "classic-walnut": ["#15120f","#2e241b","#7a4c2c","#efe0c3","#7f211f","#f4ead7","#1b1715","#d7aa59"],
+  "real-wood": ["#1b0d07","#3b1d10","#5e3019","#f1d3a0","#2a130a","#f4ead7","#1b1715","#d8a76b"],
   "egyptian": ["#17120c","#372812","#b48a4f","#d6bd72","#144f6d","#f0db9c","#1e4160","#e1b957"],
   "zen": ["#151713","#293027","#bba986","#ece7d7","#242926","#eeeade","#202321","#c9848d"],
   "medieval": ["#17110d","#34231a","#6d4126","#dbc58e","#63271f","#e6d5aa","#2b211c","#c49a46"],
@@ -38,6 +40,7 @@ function applyTheme(name) {
   const p = palettes[name] || palettes["classic-walnut"];
   const keys = ["--bg","--panel","--board","--point-a","--point-b","--white","--black","--accent"];
   keys.forEach((k,i) => document.documentElement.style.setProperty(k,p[i]));
+  document.documentElement.dataset.theme = name;
 }
 
 function landing() {
