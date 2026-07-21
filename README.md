@@ -1,6 +1,22 @@
 # Backgammon TV + Phone
 
-A working multiplayer starter app for a shared television screen and two phone controllers.
+A multiplayer starter app for a shared television screen and two phone controllers.
+
+## Deploy the live Node server
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https%3A%2F%2Fgithub.com%2Fmarkplaga%2FTV-Phone-backgamon)
+
+The Render deployment runs the Express and Socket.IO server required for live phone connections. After deployment, open the new `onrender.com` address on the TV, choose **Open TV Game**, and scan the QR code with each phone.
+
+The repository includes `render.yaml`, so Render will use:
+
+- Runtime: Node
+- Build command: `npm install`
+- Start command: `npm start`
+- Health check: `/`
+- Auto-deploys from the `main` branch
+
+The free Render service is suitable for testing, but it can spin down after 15 minutes without traffic. The first opening after a quiet period can therefore take about a minute.
 
 ## Included
 
@@ -33,9 +49,9 @@ npm start
 5. Click **Open TV Game**.
 6. Phones on the same network can scan the QR code if the TV page is opened using the computer's LAN address, for example `http://192.168.1.25:3000`.
 
-## Deploy
+## Netlify preview
 
-This can be deployed to a Node-compatible host such as Netlify Functions with adaptation, Render, Railway, Fly.io, or a VPS. Because Socket.IO needs a persistent server, a conventional Node host is the easiest first deployment.
+The Netlify site provides a static visual preview only. Netlify does not run the persistent Socket.IO process used by this version of the multiplayer game. Use the Render deployment address for live TV-and-phone play.
 
 ## Recommended next improvements
 
