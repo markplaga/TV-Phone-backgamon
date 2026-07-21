@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960">
+  <defs>
+    <linearGradient id="frameBevel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7b4527"/>
+      <stop offset="0.22" stop-color="#3b1d10"/>
+      <stop offset="0.78" stop-color="#2b140b"/>
+      <stop offset="1" stop-color="#6a351c"/>
+    </linearGradient>
+    <linearGradient id="mapleBase" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1d3a0"/>
+      <stop offset="0.45" stop-color="#dcae6f"/>
+      <stop offset="1" stop-color="#f0c98d"/>
+    </linearGradient>
+    <linearGradient id="walnutBase" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5e3019"/>
+      <stop offset="0.48" stop-color="#2a130a"/>
+      <stop offset="1" stop-color="#744124"/>
+    </linearGradient>
+    <pattern id="walnut" width="180" height="180" patternUnits="userSpaceOnUse">
+      <rect width="180" height="180" fill="url(#walnutBase)"/>
+      <g fill="none" stroke-linecap="round">
+        <path d="M-20 18 C35 -8 60 55 125 22 S205 40 225 5" stroke="#a46a3d" stroke-width="4" opacity=".28"/>
+        <path d="M-25 44 C28 18 72 76 135 42 S205 63 225 29" stroke="#160904" stroke-width="5" opacity=".42"/>
+        <path d="M-20 70 C42 35 80 105 145 70 S205 88 225 51" stroke="#b77a48" stroke-width="3" opacity=".22"/>
+        <path d="M-30 99 C30 64 88 132 148 96 S207 120 230 79" stroke="#190b06" stroke-width="6" opacity=".38"/>
+        <path d="M-20 130 C36 96 83 161 151 126 S207 151 228 109" stroke="#b67a4c" stroke-width="3" opacity=".2"/>
+        <path d="M-20 160 C31 130 84 190 150 157 S211 177 230 142" stroke="#180a05" stroke-width="5" opacity=".38"/>
+      </g>
+    </pattern>
+    <pattern id="maple" width="160" height="160" patternUnits="userSpaceOnUse">
+      <rect width="160" height="160" fill="url(#mapleBase)"/>
+      <g fill="none" stroke-linecap="round">
+        <path d="M-20 20 C35 3 62 42 115 22 S180 31 205 10" stroke="#9d672f" stroke-width="3" opacity=".2"/>
+        <path d="M-15 48 C40 28 67 69 120 48 S180 60 205 35" stroke="#fff1c8" stroke-width="3" opacity=".25"/>
+        <path d="M-20 78 C38 54 70 100 126 77 S183 91 207 64" stroke="#9d672f" stroke-width="3" opacity=".18"/>
+        <path d="M-20 108 C35 88 75 127 128 108 S186 119 210 95" stroke="#fff0c6" stroke-width="3" opacity=".23"/>
+        <path d="M-20 140 C40 115 76 160 132 137 S190 151 212 126" stroke="#96612d" stroke-width="3" opacity=".18"/>
+      </g>
+    </pattern>
+    <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#140904" flood-opacity=".72"/>
+    </filter>
+    <filter id="softInset" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blur"/>
+      <feOffset dy="5" result="off"/>
+      <feComposite in="off" in2="SourceAlpha" operator="out" result="shadow"/>
+      <feColorMatrix in="shadow" type="matrix" values="0 0 0 0 0.05 0 0 0 0 0.02 0 0 0 0 0.01 0 0 0 .8 0"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="960" fill="#1b0d07"/>
+  <rect x="5" y="5" width="1590" height="950" rx="14" fill="url(#frameBevel)" stroke="#140904" stroke-width="10"/>
+  <rect x="20" y="20" width="1560" height="920" rx="10" fill="url(#walnut)" stroke="#a36d3f" stroke-width="4"/>
+  <rect x="35" y="35" width="1530" height="890" rx="8" fill="#231007" stroke="#d6a263" stroke-width="5" filter="url(#innerShadow)"/>
+
+  <!-- Side borne-off trays -->
+  <g filter="url(#softInset)">
+    <rect x="48" y="58" width="112" height="844" rx="48" fill="url(#walnut)" stroke="#9b6035" stroke-width="5"/>
+    <rect x="1440" y="58" width="112" height="844" rx="48" fill="url(#walnut)" stroke="#9b6035" stroke-width="5"/>
+  </g>
+  <rect x="62" y="76" width="84" height="808" rx="37" fill="#2b140b" opacity=".62" stroke="#170a05" stroke-width="3"/>
+  <rect x="1454" y="76" width="84" height="808" rx="37" fill="#2b140b" opacity=".62" stroke="#170a05" stroke-width="3"/>
+
+  <!-- Main playing fields -->
+  <rect x="180" y="48" width="526" height="864" rx="3" fill="url(#maple)" stroke="#d8a76b" stroke-width="5"/>
+  <rect x="894" y="48" width="526" height="864" rx="3" fill="url(#maple)" stroke="#d8a76b" stroke-width="5"/>
+
+  <!-- Center bar -->
+  <rect x="720" y="48" width="160" height="864" rx="3" fill="url(#walnut)" stroke="#d09a59" stroke-width="5"/>
+  <path d="M737 55V905M863 55V905" stroke="#e2b274" stroke-width="3" opacity=".46" stroke-dasharray="7 8"/>
+
+  <!-- Points: left top -->
+  <g stroke="#7f4b28" stroke-width="2">
+    <path d="M184 53H271.67L227.84 342Z" fill="url(#walnut)"/>
+    <path d="M271.67 53H359.34L315.5 342Z" fill="url(#maple)"/>
+    <path d="M359.34 53H447.01L403.17 342Z" fill="url(#walnut)"/>
+    <path d="M447.01 53H534.68L490.84 342Z" fill="url(#maple)"/>
+    <path d="M534.68 53H622.35L578.51 342Z" fill="url(#walnut)"/>
+    <path d="M622.35 53H702L666.18 342Z" fill="url(#maple)"/>
+
+    <!-- left bottom -->
+    <path d="M184 907H271.67L227.84 618Z" fill="url(#maple)"/>
+    <path d="M271.67 907H359.34L315.5 618Z" fill="url(#walnut)"/>
+    <path d="M359.34 907H447.01L403.17 618Z" fill="url(#maple)"/>
+    <path d="M447.01 907H534.68L490.84 618Z" fill="url(#walnut)"/>
+    <path d="M534.68 907H622.35L578.51 618Z" fill="url(#maple)"/>
+    <path d="M622.35 907H702L666.18 618Z" fill="url(#walnut)"/>
+
+    <!-- right top -->
+    <path d="M898 53H985.67L941.84 342Z" fill="url(#walnut)"/>
+    <path d="M985.67 53H1073.34L1029.5 342Z" fill="url(#maple)"/>
+    <path d="M1073.34 53H1161.01L1117.17 342Z" fill="url(#walnut)"/>
+    <path d="M1161.01 53H1248.68L1204.84 342Z" fill="url(#maple)"/>
+    <path d="M1248.68 53H1336.35L1292.51 342Z" fill="url(#walnut)"/>
+    <path d="M1336.35 53H1416L1380.18 342Z" fill="url(#maple)"/>
+
+    <!-- right bottom -->
+    <path d="M898 907H985.67L941.84 618Z" fill="url(#maple)"/>
+    <path d="M985.67 907H1073.34L1029.5 618Z" fill="url(#walnut)"/>
+    <path d="M1073.34 907H1161.01L1117.17 618Z" fill="url(#maple)"/>
+    <path d="M1161.01 907H1248.68L1204.84 618Z" fill="url(#walnut)"/>
+    <path d="M1248.68 907H1336.35L1292.51 618Z" fill="url(#maple)"/>
+    <path d="M1336.35 907H1416L1380.18 618Z" fill="url(#walnut)"/>
+  </g>
+
+  <!-- Fine crafted trim -->
+  <rect x="174" y="42" width="538" height="876" fill="none" stroke="#180b05" stroke-width="4"/>
+  <rect x="888" y="42" width="538" height="876" fill="none" stroke="#180b05" stroke-width="4"/>
+  <rect x="714" y="42" width="172" height="876" fill="none" stroke="#180b05" stroke-width="4"/>
+  <rect x="29" y="29" width="1542" height="902" rx="9" fill="none" stroke="#f0c787" stroke-width="2" opacity=".5"/>
+</svg>
