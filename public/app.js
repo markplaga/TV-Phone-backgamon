@@ -174,7 +174,12 @@ function renderTV() {
       <button class="secondary" id="new">New Game</button>
     </aside>
   </section>`;
-  document.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => socket.emit("set-theme",{theme:b.dataset.theme}));
+  document.querySelectorAll(".theme-btn[data-theme]").forEach(button => {
+    button.onclick = event => {
+      event.stopPropagation();
+      socket.emit("set-theme", { theme: button.dataset.theme });
+    };
+  });
   document.querySelector("#match").onchange = e => socket.emit("set-match-length",{matchLength:Number(e.target.value)});
   document.querySelector("#new").onclick = () => socket.emit("new-game");
 }
