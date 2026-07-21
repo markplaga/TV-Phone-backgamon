@@ -1,6 +1,6 @@
 const bgImageThemes = {
   "real-wood": {
-    image: "./themes/real-wood/board.jpg",
+    image: "./themes/real-wood/board.PNG",
     fallback: "./themes/real-wood/board.svg"
   }
 };
