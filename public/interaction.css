@@ -49,6 +49,51 @@ button:disabled { cursor:not-allowed; opacity:.42; }
   box-shadow:0 2px 8px rgba(0,0,0,.45);
 }
 
+/* Image-backed theme system. The padding maps the interactive checker grid
+   to the playing fields in the board artwork. */
+.image-board {
+  background-color:#2b140b;
+  background-image:var(--board-skin);
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  border:0;
+  border-radius:10px;
+  grid-template-columns:1fr 13% 1fr;
+  padding:5% 11.25%;
+  box-shadow:0 22px 56px rgba(0,0,0,.58);
+}
+.image-board .point::before { display:none; }
+.image-board .bar {
+  background:transparent;
+  border-inline:0;
+  padding:3px 6px;
+}
+.image-board .bar-title { display:none; }
+.image-board .off {
+  top:6%;
+  bottom:6%;
+  width:7%;
+  padding:8px 4px;
+  justify-content:flex-end;
+  color:#f8e5c0;
+  background:rgba(15,6,3,.34);
+  border:1px solid rgba(238,190,124,.28);
+  text-shadow:0 2px 4px rgba(0,0,0,.9);
+}
+.image-board .off.left { left:3%; }
+.image-board .off.right { right:3%; }
+.image-board .checker {
+  border-color:rgba(29,13,7,.72);
+  box-shadow:0 4px 8px rgba(0,0,0,.5), inset 0 0 0 3px rgba(255,255,255,.16);
+}
+.image-board .checker.white {
+  background:radial-gradient(circle at 34% 28%,#fff9e8 0 16%,#e4c995 48%,#a9723f 100%);
+}
+.image-board .checker.black {
+  background:radial-gradient(circle at 34% 28%,#8e5834 0 13%,#42200f 48%,#160905 100%);
+}
+
 .phone .legal-source { cursor:pointer; }
 .phone .legal-source .checker {
   box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 88%,white),
